@@ -5,11 +5,11 @@ import Image from "next/image";
 import TricolorBar from "@/components/TricolorBar";
 import LogoBar from "@/components/LogoBar";
 import {
-  buildBlocks,
+  beginnerGuide,
   contacts,
   evaluationCriteria,
   faqs,
-  resources,
+  proTips,
   submitItems,
   tools,
 } from "@/data/content";
@@ -122,60 +122,97 @@ export default function SlideDeck() {
       </p>
     </Slide>,
 
-    /* 5 Screening today */
-    <Slide key="screen" kicker="Today" heading="PPT screening by 8:30 PM">
-      <p className="slide-body">
-        First screening of the Top 100 teams happens through the PPT round by <strong>today, 8:30 PM</strong>.
-      </p>
-      <p className="slide-body mt-5">
-        Selected teams then start building their MVP.
-      </p>
+    /* 5 Submit PPT */
+    <Slide key="ppt-deadline" kicker="Today" heading="Submit your PPT by 5 PM">
+      <div className="stat-card accent mb-5">
+        <p className="text-4xl sm:text-5xl font-black text-sih-orange">5:00 PM Today</p>
+      </div>
+      <p className="slide-body">PPT submission is mandatory to be considered for the Top 100 shortlist.</p>
     </Slide>,
 
-    /* 6 Coding window */
-    <Slide key="coding" kicker="Build Window" heading="Coding starts tonight">
+    /* 6 Shortlist */
+    <Slide key="shortlist" kicker="Today" heading="Top 100 shortlist by 8:30 PM">
+      <p className="slide-body">
+        The PPT shortlist of the <strong>Top 100 teams</strong> will be released by <strong>8:30 PM today</strong>.
+      </p>
+      <p className="slide-body mt-5">Only shortlisted teams move on to build their MVP.</p>
+    </Slide>,
+
+    /* 7 Coding window */
+    <Slide key="coding" kicker="Build Window" heading="Coding window">
       <div className="stat-card accent mb-5">
         <p className="text-3xl sm:text-4xl font-black text-sih-navy">
-          29 Aug, 9 PM → 30 Aug, 9 AM
+          29 Aug, 9 PM → 30 Aug, 9 PM
         </p>
-        <p className="text-2xl font-bold text-sih-orange mt-2">24 hours to build</p>
+        <p className="text-2xl font-bold text-sih-orange mt-2">Build until repo freeze</p>
       </div>
-      <p className="slide-body">Start only after 9 PM on 29 August.</p>
+      <p className="slide-body">Create the repo only after 9 PM on 29 August. Push nothing after 9 PM on 30 August.</p>
     </Slide>,
 
-    /* 7 Offline sprint */
+    /* 8 Offline sprint */
     <Slide key="offline" kicker="Offline Sprint" heading="12 hours at LHC-D">
       <div className="stat-card accent mb-5">
         <p className="text-3xl sm:text-4xl font-black text-sih-navy">30 Aug · 9 AM to 9 PM</p>
         <p className="text-2xl font-bold text-sih-orange mt-2">Venue: LHC-D</p>
       </div>
-      <p className="slide-body">Mandatory for all selected teams to be present.</p>
+      <p className="slide-body">Mandatory for all shortlisted teams to be present.</p>
     </Slide>,
 
-    /* 8 Mentorship */
+    /* 9 Mentorship */
     <Slide key="mentor" kicker="Mentorship" heading="Final year mentors on site">
       <p className="slide-body">
         Offline mentorship and guidance will be provided by final year students during the 12 hour sprint.
       </p>
     </Slide>,
 
-    /* 9 Online judging */
-    <Slide key="online" kicker="Round 2" heading="Online MVP pitching">
+    /* 10 Online judging */
+    <Slide key="online" kicker="Online Judging" heading="4 min demo + 2 min QnA">
       <div className="stat-card accent mb-5">
         <p className="text-3xl sm:text-4xl font-black text-sih-navy">30 Aug · 9 PM to 12 AM</p>
       </div>
       <ul className="space-y-4">
         <Bullet>
-          <strong>4 min</strong> pitch + <strong>2 min</strong> QnA per team
+          <strong>4 minutes</strong> of demo per team
         </Bullet>
         <Bullet>
-          Working demo of about <strong>3 minutes</strong>
+          <strong>2 minutes</strong> of QnA per team
         </Bullet>
       </ul>
     </Slide>,
 
-    /* 10 Finals */
-    <Slide key="finals" kicker="Round 3" heading="Offline finals">
+    /* 11 Path forward */
+    <Slide key="path" kicker="Selection Path" heading="How teams advance">
+      <div className="space-y-4">
+        {[
+          { n: "100", l: "teams shortlisted for the hackathon" },
+          { n: "20–40", l: "teams advance to offline finals" },
+          { n: "10", l: "teams win and move toward national SIH" },
+        ].map((x) => (
+          <div key={x.l} className="stat-card flex items-center gap-6">
+            <p className="text-5xl font-black text-sih-orange shrink-0 w-28 text-center">{x.n}</p>
+            <p className="text-2xl font-bold text-sih-navy">{x.l}</p>
+          </div>
+        ))}
+      </div>
+    </Slide>,
+
+    /* 12 Certificates */
+    <Slide key="certs" kicker="Certificates" heading="Recognition at each stage">
+      <ul className="space-y-4">
+        <Bullet>
+          All <strong>100</strong> hackathon teams get participation certificates
+        </Bullet>
+        <Bullet>
+          <strong>20 to 40</strong> finalists get finalist certificates
+        </Bullet>
+        <Bullet>
+          Top <strong>10</strong> get winner certificates
+        </Bullet>
+      </ul>
+    </Slide>,
+
+    /* 13 Finals */
+    <Slide key="finals" kicker="Offline Finals" heading="Pitch to experts">
       <p className="slide-body mb-5">
         Top <strong>20 to 40</strong> teams (based on project quality) pitch again offline.
       </p>
@@ -186,33 +223,17 @@ export default function SlideDeck() {
       </ul>
     </Slide>,
 
-    /* 11 Outcomes */
-    <Slide key="outcomes" kicker="Outcomes" heading="What you can earn">
-      <div className="grid sm:grid-cols-3 gap-4">
-        {[
-          { n: "100", l: "Participation certificates" },
-          { n: "20–40", l: "Finalist certificates" },
-          { n: "10", l: "Winner certificates" },
-        ].map((x) => (
-          <div key={x.l} className="stat-card text-center">
-            <p className="text-5xl font-black text-sih-orange">{x.n}</p>
-            <p className="text-xl font-bold text-sih-navy mt-2">{x.l}</p>
-          </div>
-        ))}
-      </div>
-    </Slide>,
-
-    /* 12 Prizes */
+    /* 14 Prizes */
     <Slide key="prizes" kicker="Prizes" heading="Top 10 winners">
       <p className="slide-body">Consumable prizes worth up to</p>
       <p className="text-6xl sm:text-7xl font-black text-sih-orange mt-3">₹40,000</p>
-      <p className="slide-body mt-5">Plus a shot at National SIH 2026 (₹2 crore prize pool).</p>
+      <p className="slide-body mt-5">Plus a path to National SIH 2026 (₹2 crore prize pool).</p>
     </Slide>,
 
-    /* 13 Evaluation intro */
+    /* 15 Evaluation */
     <Slide key="eval" kicker="Evaluation" heading="How you are scored">
       <p className="slide-body mb-6">
-        You are judged on the problem option you chose. MVP and demo carry the most weight.
+        Judged on the problem option you chose. Working demo carries the most weight.
       </p>
       <div className="space-y-4">
         {evaluationCriteria.map((c) => (
@@ -229,34 +250,22 @@ export default function SlideDeck() {
       </div>
     </Slide>,
 
-    /* 14 MVP weight */
+    /* 16 MVP weight */
     <Slide key="mvp" kicker="Evaluation" heading="Working MVP is 30%">
       <p className="text-7xl sm:text-8xl font-black text-sih-orange mb-4">30%</p>
       <p className="slide-body">A demo that runs beats a perfect slide deck.</p>
       <p className="slide-body mt-4">Hardware and software projects both count.</p>
     </Slide>,
 
-    /* 15 Hardware */
-    <Slide key="hw" kicker="Builds" heading="Hardware is welcome">
-      <p className="slide-body">
-        IoT and hardware projects are allowed. Bring your kit to LHC-D and demo live.
-      </p>
-    </Slide>,
-
-    /* 16 Build guide intro */
-    <Slide key="build-intro" kicker="Build Guide" heading="Plan your 24 hours">
-      <p className="slide-body">Ship early. Iterate fast. Freeze on time.</p>
-    </Slide>,
-
-    /* 17-21 Build blocks */
-    ...buildBlocks.map((b, i) => (
-      <Slide key={`build-${i}`} kicker="Build Guide" heading={b.hours}>
-        <p className="slide-body">{b.task}</p>
+    /* Beginner build guide */
+    ...beginnerGuide.map((g, i) => (
+      <Slide key={`guide-${i}`} kicker={g.kicker} heading={g.heading}>
+        <p className="slide-body">{g.body}</p>
       </Slide>
     )),
 
-    /* 22 Tools */
-    <Slide key="tools" kicker="Tools" heading="Suggested stack">
+    /* Tools */
+    <Slide key="tools" kicker="Tools" heading="Start with these">
       <div className="grid sm:grid-cols-2 gap-4">
         {tools.map((t) => (
           <div key={t.category} className="stat-card">
@@ -267,7 +276,7 @@ export default function SlideDeck() {
       </div>
     </Slide>,
 
-    /* 23 Repo rules */
+    /* Repo rules */
     <Slide key="repo" kicker="Repository Rules" heading="Repo timeline">
       <ul className="space-y-5">
         <Bullet>
@@ -280,7 +289,7 @@ export default function SlideDeck() {
       </ul>
     </Slide>,
 
-    /* 24 Submit */
+    /* Submit checklist */
     <Slide key="submit" kicker="Submission" heading="What to submit">
       <ul className="space-y-4">
         {submitItems.map((item) => (
@@ -289,38 +298,30 @@ export default function SlideDeck() {
       </ul>
     </Slide>,
 
-    /* 25-26 Resources */
-    <Slide key="res1" kicker="Resources" heading="Ideas & approaches">
-      <div className="grid sm:grid-cols-2 gap-4">
-        {resources.slice(0, 3).map((r) => (
-          <div key={r.title} className="stat-card">
-            <p className="text-2xl font-black text-sih-navy">{r.title}</p>
-            <p className="text-xl font-semibold text-sih-charcoal mt-2">{r.desc}</p>
-          </div>
-        ))}
-      </div>
-    </Slide>,
+    /* Pro tips - 4 per slide */
+    ...[0, 4].map((start, idx) => (
+      <Slide key={`tips-${idx}`} kicker="Pro Tips" heading={idx === 0 ? "Survive the sprint" : "Win the demo"}>
+        <div className="grid sm:grid-cols-2 gap-4">
+          {proTips.slice(start, start + 4).map((t) => (
+            <div key={t.title} className="stat-card">
+              <p className="text-2xl font-black text-sih-navy">{t.title}</p>
+              <p className="text-xl font-semibold text-sih-charcoal mt-2">{t.desc}</p>
+            </div>
+          ))}
+        </div>
+      </Slide>
+    )),
 
-    <Slide key="res2" kicker="Resources" heading="Pro tips">
-      <div className="grid sm:grid-cols-2 gap-4">
-        {resources.slice(3).map((r) => (
-          <div key={r.title} className="stat-card">
-            <p className="text-2xl font-black text-sih-navy">{r.title}</p>
-            <p className="text-xl font-semibold text-sih-charcoal mt-2">{r.desc}</p>
-          </div>
-        ))}
-      </div>
-    </Slide>,
-
-    /* 27 Timeline recap */
+    /* Timeline */
     <Slide key="timeline" kicker="Timeline" heading="Key moments">
       <div className="space-y-3">
         {[
-          ["Today 8:30 PM", "Top 100 PPT screening results"],
+          ["Today 5 PM", "PPT submission deadline"],
+          ["Today 8:30 PM", "Top 100 shortlist released"],
           ["29 Aug 9 PM", "Coding / repo start"],
           ["30 Aug 9 AM–9 PM", "Offline sprint @ LHC-D"],
           ["30 Aug 9 PM", "Repo freeze"],
-          ["30 Aug 9 PM–12 AM", "Online pitch + QnA"],
+          ["30 Aug 9 PM–12 AM", "Online: 4 min demo + 2 min QnA"],
           ["Finals", "Top 20–40 offline at Digital Library"],
         ].map(([when, what]) => (
           <div key={when} className="stat-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 py-4">
@@ -331,7 +332,7 @@ export default function SlideDeck() {
       </div>
     </Slide>,
 
-    /* 28-30 Q&A */
+    /* Q&A */
     ...[0, 4, 8].map((start, idx) => (
       <Slide key={`faq-${idx}`} kicker="Q & A" heading={idx === 0 ? "Common questions" : "More questions"}>
         <div className="space-y-3">
@@ -345,7 +346,7 @@ export default function SlideDeck() {
       </Slide>
     )),
 
-    /* 31 Contact */
+    /* Contact */
     <Slide key="contact" center>
       <Image src="/logos/sih.png" alt="SIH" width={140} height={140} className="h-24 w-auto mb-5 object-contain" />
       <h2 className="text-4xl sm:text-5xl font-black text-sih-navy mb-2">
