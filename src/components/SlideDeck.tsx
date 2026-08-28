@@ -2,98 +2,303 @@
 
 import { type ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import TricolorBar from "@/components/TricolorBar";
 import LogoBar from "@/components/LogoBar";
 import {
+  buildTimeline,
   contacts,
   dates,
+  evaluationCriteria,
   faqs,
-  guidelines,
-  hackathonCriteria,
-  pptCriteria,
-  rules,
+  resources,
+  submissionChecklist,
+  tools,
 } from "@/data/content";
 
-const TOTAL_SLIDES = 9;
-
-function AshokaChakra() {
-  return (
-    <svg viewBox="0 0 40 40" className="h-7 w-7 sm:h-9 sm:w-9 text-sih-navy shrink-0" aria-hidden="true">
-      <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="1.5" />
-      {Array.from({ length: 24 }).map((_, i) => {
-        const angle = (i * 15 * Math.PI) / 180;
-        return (
-          <line
-            key={i}
-            x1={20 + 6 * Math.cos(angle)}
-            y1={20 + 6 * Math.sin(angle)}
-            x2={20 + 18 * Math.cos(angle)}
-            y2={20 + 18 * Math.sin(angle)}
-            stroke="currentColor"
-            strokeWidth="0.8"
-          />
-        );
-      })}
-      <circle cx="20" cy="20" r="3" fill="currentColor" />
-    </svg>
-  );
-}
-
-function CircuitDecor({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 120 120" className={`absolute opacity-[0.12] pointer-events-none ${className}`} aria-hidden="true">
-      <path d="M0 60 H40 M80 60 H120 M60 0 V40 M60 80 V120" stroke="#e8751a" strokeWidth="1" fill="none" />
-      <circle cx="40" cy="60" r="3" fill="#e8751a" />
-      <circle cx="80" cy="60" r="3" fill="#1b3a6b" />
-      <rect x="90" y="30" width="14" height="14" fill="none" stroke="#e8751a" strokeWidth="1" transform="rotate(45 97 37)" />
-    </svg>
-  );
-}
-
-function SlideTitle({ children }: { children: ReactNode }) {
-  return (
-    <h2 className="slide-title text-2xl sm:text-3xl font-extrabold text-sih-navy mb-4 sm:mb-6">
-      {children}
-    </h2>
-  );
-}
-
-function SlideShell({
+function Slide({
+  kicker,
+  heading,
   children,
-  showLogos = false,
-  compactLogos = true,
+  dark = false,
+  center = false,
 }: {
+  kicker?: string;
+  heading?: string;
   children: ReactNode;
-  showLogos?: boolean;
-  compactLogos?: boolean;
+  dark?: boolean;
+  center?: boolean;
 }) {
   return (
-    <div className="slide-shell relative flex flex-col h-full bg-white circuit-pattern overflow-hidden">
-      <CircuitDecor className="w-28 h-28 top-2 right-2" />
-      <CircuitDecor className="w-24 h-24 bottom-16 left-2 rotate-180" />
-      {showLogos && <LogoBar compact={compactLogos} />}
-      <div className="flex-1 flex flex-col justify-center px-5 sm:px-10 lg:px-16 py-4 min-h-0 overflow-y-auto slide-scroll">
-        {children}
+    <div className={`slide-frame flex flex-col h-full ${dark ? "dark" : ""}`}>
+      <LogoBar />
+      <div
+        className={`flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-20 py-6 min-h-0 overflow-y-auto ${
+          center ? "items-center text-center" : ""
+        }`}
+      >
+        {kicker && <p className="slide-kicker mb-2">{kicker}</p>}
+        {heading && <h2 className="slide-heading mb-6 max-w-3xl">{heading}</h2>}
+        <div className={`w-full max-w-3xl ${center ? "flex flex-col items-center" : ""}`}>{children}</div>
       </div>
     </div>
   );
 }
 
+function BigNumber({ n, label }: { n: string; label: string }) {
+  return (
+    <div className="stat-card text-center flex-1 min-w-[120px]">
+      <p className="text-4xl sm:text-5xl font-black text-accent">{n}</p>
+      <p className="text-sm text-slate-500 mt-1 font-medium">{label}</p>
+    </div>
+  );
+}
+
+function Bullet({ children }: { children: ReactNode }) {
+  return (
+    <li className="flex gap-3 items-start text-base sm:text-lg text-slate-600">
+      <span className="mt-2 w-2 h-2 rounded-full bg-accent shrink-0" />
+      <span>{children}</span>
+    </li>
+  );
+}
+
 export default function SlideDeck() {
+  const slides: ReactNode[] = [
+    /* 1 Title */
+    <Slide key="1" center dark>
+      <Image src="/logos/sih.png" alt="SIH" width={100} height={100} className="h-20 sm:h-24 w-auto mb-6 opacity-90" />
+      <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-none">
+        Smart India
+        <br />
+        Hackathon
+      </h1>
+      <p className="text-accent-light text-lg sm:text-xl font-semibold mt-4">Internal Screening Round</p>
+      <p className="text-slate-400 mt-3 text-sm sm:text-base">NITK Surathkal · 2026</p>
+    </Slide>,
+
+    /* 2 What */
+    <Slide key="2" kicker="Overview" heading="What is this?">
+      <p className="slide-body text-xl sm:text-2xl font-medium text-slate-700 leading-snug">
+        NITK&apos;s institute-level hackathon to find teams that will represent the college at National SIH 2026.
+      </p>
+    </Slide>,
+
+    /* 3 Team */
+    <Slide key="3" kicker="Teams" heading="Who can join?">
+      <ul className="space-y-4">
+        <Bullet>Exactly <strong>6 members</strong> per team</Bullet>
+        <Bullet>At least <strong>1 female</strong> member</Bullet>
+        <Bullet>All members must be <strong>NITK students</strong></Bullet>
+      </ul>
+    </Slide>,
+
+    /* 4 Team contd */
+    <Slide key="4" kicker="Teams" heading="Good to know">
+      <ul className="space-y-4">
+        <Bullet>Cross-branch teams are <strong>encouraged</strong></Bullet>
+        <Bullet>Only <strong>1 member</strong> fills the registration form</Bullet>
+        <Bullet>Register early for faster problem statement allocation</Bullet>
+      </ul>
+    </Slide>,
+
+    /* 5 Problem statements */
+    <Slide key="5" kicker="Problem Statements" heading="You get 3. Pick 1.">
+      <div className="grid gap-3 sm:grid-cols-3">
+        {["Campus", "Ministry", "General"].map((type) => (
+          <div key={type} className="stat-card text-center py-6">
+            <p className="text-2xl font-bold text-slate-800">{type}</p>
+          </div>
+        ))}
+      </div>
+      <p className="text-slate-500 mt-5 text-sm">Build your solution around the one you choose.</p>
+    </Slide>,
+
+    /* 6 PPT deadline */
+    <Slide key="6" kicker="Deadline" heading="Submit your PPT">
+      <div className="stat-card border-accent/30 bg-indigo-50/50">
+        <p className="text-3xl sm:text-4xl font-black text-accent">29 Aug, 4 PM</p>
+        <p className="text-slate-600 mt-2">Form open from 28 Aug, 4 PM</p>
+      </div>
+      <p className="text-slate-500 mt-4 text-sm">Mandatory to qualify for the hackathon.</p>
+    </Slide>,
+
+    /* 7 Hackathon day */
+    <Slide key="7" kicker="Hackathon" heading="30 August @ CCC">
+      <div className="stat-card">
+        <p className="text-2xl sm:text-3xl font-bold text-slate-800">9 AM to 9 PM</p>
+        <p className="text-slate-500 mt-2">24-hour offline sprint with mentorship</p>
+      </div>
+      <p className="text-slate-500 mt-4 text-sm">Meals, SWAG, and free pizza for participants.</p>
+    </Slide>,
+
+    /* 8 Outcomes numbers */
+    <Slide key="8" kicker="Outcomes" heading="What you can win">
+      <div className="flex flex-wrap gap-3 justify-center">
+        <BigNumber n="100" label="Teams at hackathon" />
+        <BigNumber n="10" label="Internal winners" />
+        <BigNumber n="20-40" label="Advance to National SIH" />
+      </div>
+    </Slide>,
+
+    /* 9 Prizes */
+    <Slide key="9" kicker="Prizes" heading="Top 10 teams">
+      <p className="slide-body text-xl sm:text-2xl font-semibold text-slate-700">
+        Consumable prizes worth up to
+      </p>
+      <p className="text-5xl sm:text-6xl font-black text-accent mt-3">₹40,000</p>
+      <p className="text-slate-500 mt-4 text-sm">Split among the 10 winning teams.</p>
+    </Slide>,
+
+    /* 10 Certificates */
+    <Slide key="10" kicker="Recognition" heading="Certificates for all">
+      <div className="stat-card py-8 text-center">
+        <p className="text-5xl font-black text-accent">100</p>
+        <p className="text-lg text-slate-600 mt-2">participating teams receive certificates</p>
+      </div>
+      <p className="text-slate-500 mt-4 text-sm">National SIH has a ₹2 crore prize pool for advancing teams.</p>
+    </Slide>,
+
+    /* 11 Evaluation intro */
+    <Slide key="11" kicker="Evaluation" heading="How you are scored">
+      <p className="slide-body mb-6">PPT screening selects Top 100. Hackathon judges your MVP heavily.</p>
+      <div className="space-y-3">
+        {evaluationCriteria.map((c) => (
+          <div key={c.label}>
+            <div className="flex justify-between text-sm mb-1">
+              <span className="font-semibold text-slate-700">{c.label}</span>
+              <span className="font-bold text-accent">{c.marks}%</span>
+            </div>
+            <div className="mark-bar">
+              <div className={`mark-fill ${c.color}`} style={{ width: `${c.marks * 3}%` }} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </Slide>,
+
+    /* 12 MVP focus */
+    <Slide key="12" kicker="Evaluation" heading="MVP matters most">
+      <p className="text-6xl sm:text-7xl font-black text-accent mb-4">30%</p>
+      <p className="slide-body text-xl">of your score comes from a working build.</p>
+      <p className="text-slate-500 mt-4 text-sm">A demo that runs beats a perfect slide deck every time.</p>
+    </Slide>,
+
+    /* 13 24h plan intro */
+    <Slide key="13" kicker="Build Guide" heading="Your 24 hours">
+      <p className="slide-body">Plan your sprint. Ship early. Iterate fast.</p>
+    </Slide>,
+
+    /* 14-18 Build timeline (one per slide) */
+    ...buildTimeline.map((block, i) => (
+      <Slide key={`build-${i}`} kicker="Build Guide" heading={block.hours}>
+        <p className="slide-body text-xl sm:text-2xl font-medium text-slate-700">{block.task}</p>
+      </Slide>
+    )),
+
+    /* 19 Tools */
+    <Slide key="19" kicker="Tools" heading="Pick your stack">
+      <div className="grid sm:grid-cols-2 gap-3">
+        {tools.map((t) => (
+          <div key={t.category} className="stat-card">
+            <p className="font-bold text-slate-800 text-sm mb-2">{t.category}</p>
+            <p className="text-slate-600 text-sm">{t.items.join(" · ")}</p>
+          </div>
+        ))}
+      </div>
+    </Slide>,
+
+    /* 20 Submission */
+    <Slide key="20" kicker="Submission" heading="What to submit">
+      <ul className="space-y-3">
+        {submissionChecklist.map((item) => (
+          <Bullet key={item}>{item}</Bullet>
+        ))}
+      </ul>
+    </Slide>,
+
+    /* 21-22 Resources */
+    <Slide key="21" kicker="Resources" heading="Ideas & approaches">
+      <div className="grid sm:grid-cols-2 gap-3">
+        {resources.slice(0, 3).map((r) => (
+          <div key={r.title} className="stat-card">
+            <p className="font-bold text-slate-800 text-sm">{r.title}</p>
+            <p className="text-slate-500 text-xs mt-1">{r.desc}</p>
+          </div>
+        ))}
+      </div>
+    </Slide>,
+
+    <Slide key="22" kicker="Resources" heading="Pro tips">
+      <div className="grid sm:grid-cols-2 gap-3">
+        {resources.slice(3).map((r) => (
+          <div key={r.title} className="stat-card">
+            <p className="font-bold text-slate-800 text-sm">{r.title}</p>
+            <p className="text-slate-500 text-xs mt-1">{r.desc}</p>
+          </div>
+        ))}
+      </div>
+    </Slide>,
+
+    /* 23 Dates recap */
+    <Slide key="23" kicker="Timeline" heading="Key dates">
+      <div className="space-y-2">
+        {dates.map((d) => (
+          <div
+            key={d.when}
+            className={`flex justify-between items-center stat-card py-3 px-4 ${
+              d.urgent ? "border-accent/40 bg-indigo-50/50" : ""
+            }`}
+          >
+            <span className="font-mono text-sm font-semibold text-accent">{d.when}</span>
+            <span className="text-sm text-slate-600">{d.what}</span>
+          </div>
+        ))}
+      </div>
+    </Slide>,
+
+    /* 24-26 Q&A (3 slides, ~4 each) */
+    ...[0, 4, 8].map((start, idx) => (
+      <Slide key={`faq-${idx}`} kicker="Q & A" heading={idx === 0 ? "Common questions" : "More questions"}>
+        <div className="space-y-3">
+          {faqs.slice(start, start + 4).map((f) => (
+            <div key={f.q} className="stat-card py-3 px-4">
+              <p className="font-semibold text-slate-800 text-sm">{f.q}</p>
+              <p className="text-slate-500 text-xs mt-1">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </Slide>
+    )),
+
+    /* 27 Contact */
+    <Slide key="27" center dark>
+      <h2 className="text-3xl sm:text-4xl font-black text-white mb-2">Build. Innovate. Represent NITK.</h2>
+      <p className="text-accent-light font-semibold mb-8">See you at SIH</p>
+      <div className="grid sm:grid-cols-3 gap-3 w-full max-w-2xl">
+        {contacts.map((c) => (
+          <div key={c.name} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center">
+            <p className="font-bold text-white text-sm">{c.name}</p>
+            <p className="text-slate-400 text-xs mt-1">{c.role}</p>
+            <a href={`tel:${c.phone}`} className="text-accent-light text-sm font-semibold mt-2 inline-block">
+              {c.phone}
+            </a>
+          </div>
+        ))}
+      </div>
+    </Slide>,
+  ];
+
+  const total = slides.length;
   const [current, setCurrent] = useState(0);
   const touchStart = useRef<number | null>(null);
   const touchEnd = useRef<number | null>(null);
 
-  const goTo = useCallback((index: number) => {
-    setCurrent(Math.max(0, Math.min(TOTAL_SLIDES - 1, index)));
-  }, []);
-
+  const goTo = useCallback((i: number) => setCurrent(Math.max(0, Math.min(total - 1, i))), [total]);
   const next = useCallback(() => goTo(current + 1), [current, goTo]);
   const prev = useCallback(() => goTo(current - 1), [current, goTo]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "ArrowDown") {
         e.preventDefault();
         next();
       } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
@@ -109,250 +314,26 @@ export default function SlideDeck() {
     touchEnd.current = null;
     touchStart.current = e.targetTouches[0].clientX;
   };
-
   const onTouchMove = (e: React.TouchEvent) => {
     touchEnd.current = e.targetTouches[0].clientX;
   };
-
   const onTouchEnd = () => {
     if (touchStart.current === null || touchEnd.current === null) return;
     const diff = touchStart.current - touchEnd.current;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) next();
-      else prev();
-    }
+    if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
     touchStart.current = null;
     touchEnd.current = null;
   };
 
-  const slides: ReactNode[] = [
-    /* Slide 1 — Title */
-    <SlideShell key="title" showLogos>
-      <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
-        <div className="flex-1 text-center lg:text-left">
-          <p className="text-sih-orange font-semibold text-xs sm:text-sm mb-2">
-            ✨ Greetings from WebClub, IET, IEEE ✨
-          </p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-sih-navy leading-tight">
-            SMART INDIA
-            <br />
-            HACKATHON
-          </h1>
-          <div className="flex items-center justify-center lg:justify-start gap-2 mt-2">
-            <p className="text-lg sm:text-xl font-bold text-sih-orange">INTERNAL SCREENING ROUND</p>
-            <AshokaChakra />
-          </div>
-          <p className="mt-3 text-gray-600 text-sm sm:text-base max-w-lg mx-auto lg:mx-0">
-            Ready to build something meaningful? Form your team and get ready for the NITK Internal Hackathon.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2 justify-center lg:justify-start">
-            {["👥 6 members (min. 1 female)", "🎓 NITK only", "🔀 Cross-branch encouraged"].map((t) => (
-              <span key={t} className="text-xs sm:text-sm bg-sih-navy/5 border border-sih-navy/15 rounded-full px-3 py-1.5 font-medium text-sih-navy">
-                {t}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-col items-center gap-4 shrink-0">
-          <div className="prize-badge w-36 h-36 sm:w-44 sm:h-44 rounded-full flex flex-col items-center justify-center border-4 border-yellow-600/30">
-            <span className="text-[10px] font-bold text-gray-800 tracking-widest">PRIZE POOL</span>
-            <span className="text-2xl sm:text-3xl font-black text-gray-900">₹40,000</span>
-          </div>
-          <div className="border-2 border-sih-navy/20 rounded-xl p-4 font-mono text-xs sm:text-sm w-56 sm:w-64">
-            <p className="mb-2">
-              <span className="text-sih-orange font-bold">PPT:</span> 28 Aug 4 PM – 29 Aug 4 PM
-            </p>
-            <p>
-              <span className="text-sih-orange font-bold">Hackathon:</span> 30 Aug 9 AM – 9 PM @ CCC
-            </p>
-          </div>
-        </div>
-      </div>
-      <p className="mt-6 text-center text-sm sm:text-base font-bold text-sih-navy">
-        TOP PERFORMERS ADVANCE TO SIH 2026 — <span className="text-sih-orange">₹2 CRORE</span> PRIZE POOL
-      </p>
-    </SlideShell>,
-
-    /* Slide 2 — Guidelines */
-    <SlideShell key="guidelines">
-      <SlideTitle>GUIDELINES</SlideTitle>
-      <ol className="space-y-3 sm:space-y-4">
-        {guidelines.map((item, i) => (
-          <li key={i} className="flex gap-3 items-start">
-            <span className="shrink-0 w-7 h-7 rounded-full bg-gradient-to-br from-sih-orange to-sih-green text-white font-bold flex items-center justify-center text-xs">
-              {i + 1}
-            </span>
-            <p className="text-gray-800 text-sm sm:text-base leading-relaxed pt-0.5">{item}</p>
-          </li>
-        ))}
-      </ol>
-      <div className="mt-4 flex items-center gap-3">
-        <Image src="/logos/sih.png" alt="SIH" width={80} height={80} className="h-16 w-auto object-contain" />
-        <p className="text-xs text-gray-500">Innovation · Technology · Solutions</p>
-      </div>
-    </SlideShell>,
-
-    /* Slide 3 — Dates */
-    <SlideShell key="dates">
-      <SlideTitle>IMPORTANT DATES</SlideTitle>
-      <div className="space-y-1">
-        {dates.map((item, i) => (
-          <div
-            key={i}
-            className={`flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-2.5 border-b border-gray-100 last:border-0 ${
-              item.highlight ? "bg-sih-orange/5 -mx-2 px-2 rounded-lg" : ""
-            }`}
-          >
-            <time className="font-mono text-xs sm:text-sm font-semibold text-sih-orange sm:w-52 shrink-0">
-              {item.date}
-            </time>
-            <span className={`text-sm sm:text-base ${item.highlight ? "font-bold text-sih-navy" : "text-gray-700"}`}>
-              {item.activity}
-            </span>
-          </div>
-        ))}
-      </div>
-      <p className="mt-4 text-xs sm:text-sm text-gray-500 text-center">
-        ⏱️ Register early to get your problem statements allocated sooner.
-      </p>
-    </SlideShell>,
-
-    /* Slide 4 — PPT Evaluation */
-    <SlideShell key="eval-ppt">
-      <SlideTitle>EVALUATION — PPT SCREENING</SlideTitle>
-      <p className="text-gray-600 text-sm mb-4">
-        Top <strong>100 teams</strong> selected based on official SIH principles:
-      </p>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-        {pptCriteria.map((c) => (
-          <div key={c.title} className="border border-gray-200 rounded-lg p-3 bg-white/80">
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-lg">{c.icon}</span>
-              <span className="bg-sih-navy text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{c.weight}</span>
-            </div>
-            <p className="font-bold text-sih-navy text-xs sm:text-sm leading-tight">{c.title}</p>
-          </div>
-        ))}
-      </div>
-    </SlideShell>,
-
-    /* Slide 5 — Hackathon Evaluation */
-    <SlideShell key="eval-hack">
-      <SlideTitle>EVALUATION — HACKATHON ROUNDS</SlideTitle>
-      <div className="space-y-3">
-        {hackathonCriteria.map((r) => (
-          <div key={r.round} className="bg-gray-50 rounded-lg p-3 sm:p-4 border border-gray-100">
-            <h4 className="font-bold text-sih-navy text-sm sm:text-base mb-2">{r.round}</h4>
-            <ul className="space-y-1">
-              {r.items.map((item, i) => (
-                <li key={i} className="flex gap-2 text-xs sm:text-sm text-gray-700">
-                  <span className="text-sih-green font-bold shrink-0">✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-      <div className="mt-3 p-3 bg-sih-navy/5 border-l-4 border-sih-navy rounded-r-lg">
-        <p className="text-xs sm:text-sm text-gray-700">
-          <strong className="text-sih-navy">Code Freeze:</strong> No code changes after freeze — only README updates. Violations = disqualification.
-        </p>
-      </div>
-    </SlideShell>,
-
-    /* Slide 6 — Rules */
-    <SlideShell key="rules">
-      <SlideTitle>HACKATHON RULES</SlideTitle>
-      <div className="grid sm:grid-cols-2 gap-2 sm:gap-3">
-        {rules.map((rule, i) => (
-          <div key={i} className="border border-gray-200 rounded-lg p-3 bg-white/80">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="w-6 h-6 rounded-full bg-sih-navy text-white text-[10px] flex items-center justify-center font-bold shrink-0">
-                {i + 1}
-              </span>
-              <h4 className="font-bold text-sih-navy text-xs sm:text-sm">{rule.title}</h4>
-            </div>
-            <p className="text-xs sm:text-sm text-gray-600 leading-relaxed pl-8">{rule.content}</p>
-          </div>
-        ))}
-      </div>
-    </SlideShell>,
-
-    /* Slide 7 — Q&A Part 1 */
-    <SlideShell key="qna1">
-      <SlideTitle>Q &amp; A</SlideTitle>
-      <div className="space-y-2 sm:space-y-3">
-        {faqs.slice(0, 6).map((faq, i) => (
-          <div key={i} className="border border-gray-200 rounded-lg p-3 bg-white/80">
-            <div className="flex gap-2 items-start">
-              <span className="shrink-0 w-6 h-6 rounded-full bg-sih-orange text-white text-[10px] font-bold flex items-center justify-center">Q</span>
-              <div>
-                <p className="font-semibold text-sih-navy text-xs sm:text-sm">{faq.q}</p>
-                <p className="text-gray-600 text-xs sm:text-sm mt-1">{faq.a}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </SlideShell>,
-
-    /* Slide 8 — Q&A Part 2 */
-    <SlideShell key="qna2">
-      <SlideTitle>Q &amp; A (contd.)</SlideTitle>
-      <div className="space-y-2 sm:space-y-3">
-        {faqs.slice(6).map((faq, i) => (
-          <div key={i} className="border border-gray-200 rounded-lg p-3 bg-white/80">
-            <div className="flex gap-2 items-start">
-              <span className="shrink-0 w-6 h-6 rounded-full bg-sih-orange text-white text-[10px] font-bold flex items-center justify-center">Q</span>
-              <div>
-                <p className="font-semibold text-sih-navy text-xs sm:text-sm">{faq.q}</p>
-                <p className="text-gray-600 text-xs sm:text-sm mt-1">{faq.a}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </SlideShell>,
-
-    /* Slide 9 — Contact / Closing */
-    <SlideShell key="contact">
-      <div className="text-center">
-        <Image src="/logos/sih.png" alt="Smart India Hackathon" width={120} height={120} className="h-24 sm:h-28 w-auto mx-auto object-contain mb-4" />
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-sih-navy mb-2">Build. Innovate. Represent NITK.</h2>
-        <p className="text-sih-orange font-bold text-lg mb-6">See you at SIH! 🇮🇳</p>
-        <div className="grid sm:grid-cols-3 gap-3 max-w-2xl mx-auto">
-          {contacts.map((c) => (
-            <div key={c.name} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
-              <p className="font-bold text-sih-navy text-xs sm:text-sm">{c.name}</p>
-              <p className="text-[10px] sm:text-xs text-gray-500 mt-0.5">{c.role}</p>
-              <a href={`tel:${c.phone}`} className="text-sih-orange font-semibold text-xs sm:text-sm mt-1 inline-block hover:underline">
-                {c.phone}
-              </a>
-            </div>
-          ))}
-        </div>
-        <p className="mt-6 text-[10px] sm:text-xs text-gray-400">
-          © 2026 SIH — NITK Internal Screening Round · WebClub · IET · IEEE
-        </p>
-      </div>
-    </SlideShell>,
-  ];
-
   return (
     <div
-      className="ppt-deck h-dvh flex flex-col bg-white select-none"
+      className="ppt-deck h-dvh flex flex-col bg-slate-900"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      <TricolorBar />
-
       <div className="flex-1 relative overflow-hidden min-h-0">
-        <div
-          className="flex h-full transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${current * 100}%)` }}
-        >
+        <div className="slide-track flex h-full" style={{ transform: `translateX(-${current * 100}%)` }}>
           {slides.map((slide, i) => (
             <div key={i} className="w-full h-full shrink-0">
               {slide}
@@ -361,59 +342,44 @@ export default function SlideDeck() {
         </div>
       </div>
 
-      {/* PPT Navigation */}
-      <div className="shrink-0 bg-white border-t border-gray-100 px-4 py-3">
-        <div className="flex items-center justify-between max-w-4xl mx-auto">
+      <div className="shrink-0 bg-slate-900 px-4 py-3 border-t border-slate-800">
+        <div className="flex items-center justify-between max-w-lg mx-auto">
           <button
             type="button"
             onClick={prev}
             disabled={current === 0}
-            className="text-sih-navy font-bold text-sm disabled:opacity-30 hover:text-sih-orange transition-colors px-2"
-            aria-label="Previous slide"
+            className="text-slate-400 text-xs font-semibold disabled:opacity-30 hover:text-white px-2"
           >
-            ◀ PREV
+            Prev
           </button>
 
           <div className="flex flex-col items-center gap-2">
-            <button
-              type="button"
-              onClick={next}
-              disabled={current === TOTAL_SLIDES - 1}
-              className="swipe-btn border-2 border-gray-300 rounded-full px-6 py-1.5 text-sm font-semibold text-gray-600 hover:border-sih-orange hover:text-sih-orange transition-colors disabled:opacity-40"
-            >
-              SWIPE &gt;&gt;&gt;
-            </button>
-            <div className="flex items-center gap-1.5">
-              {Array.from({ length: TOTAL_SLIDES }).map((_, i) => (
+            <div className="flex items-center gap-1 max-w-[200px] overflow-hidden">
+              {slides.map((_, i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => goTo(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    i === current ? "bg-sih-orange w-5" : "bg-gray-300 hover:bg-gray-400"
-                  }`}
-                  aria-label={`Go to slide ${i + 1}`}
+                  className={`nav-dot shrink-0 ${i === current ? "active" : ""}`}
+                  aria-label={`Slide ${i + 1}`}
                 />
               ))}
             </div>
-            <span className="text-[10px] text-gray-400 font-mono">
-              {current + 1} / {TOTAL_SLIDES}
+            <span className="text-[10px] text-slate-500 font-mono">
+              {current + 1} / {total}
             </span>
           </div>
 
           <button
             type="button"
             onClick={next}
-            disabled={current === TOTAL_SLIDES - 1}
-            className="text-sih-navy font-bold text-sm disabled:opacity-30 hover:text-sih-orange transition-colors px-2"
-            aria-label="Next slide"
+            disabled={current === total - 1}
+            className="text-slate-400 text-xs font-semibold disabled:opacity-30 hover:text-white px-2"
           >
-            NEXT ▶
+            Next
           </button>
         </div>
       </div>
-
-      <TricolorBar />
     </div>
   );
 }
