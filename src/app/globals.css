@@ -124,3 +124,12 @@ body {
   background: radial-gradient(circle at 30% 30%, #ffe566, var(--sih-gold));
   box-shadow: 0 8px 28px rgba(245, 197, 24, 0.45);
 }
+
+.slide-frame {
+  overscroll-behavior: contain;
+}
+
+.overscroll-contain {
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}

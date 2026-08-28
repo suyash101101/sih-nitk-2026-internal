@@ -20,24 +20,30 @@ function Slide({
   children,
   center = false,
   bare = false,
+  dense = false,
 }: {
   kicker?: string;
   heading?: string;
   children: ReactNode;
   center?: boolean;
   bare?: boolean;
+  dense?: boolean;
 }) {
   return (
-    <div className="slide-frame flex flex-col h-full">
+    <div className="slide-frame flex flex-col h-full overflow-hidden">
       {!bare && <LogoBar />}
       <div
-        className={`flex-1 flex flex-col justify-center px-6 sm:px-12 lg:px-16 py-5 min-h-0 overflow-y-auto ${
-          center ? "items-center text-center" : ""
-        }`}
+        className={`flex-1 flex flex-col min-h-0 overflow-y-auto overscroll-contain px-6 sm:px-12 lg:px-16 pt-4 pb-8 ${
+          dense || center ? "justify-start" : "justify-center"
+        } ${center ? "items-center text-center" : ""}`}
       >
-        {kicker && <p className="slide-kicker mb-3">{kicker}</p>}
-        {heading && <h2 className="slide-heading mb-6 max-w-5xl">{heading}</h2>}
-        <div className={`w-full max-w-5xl ${center ? "flex flex-col items-center" : ""}`}>
+        {kicker && <p className="slide-kicker mb-2 shrink-0">{kicker}</p>}
+        {heading && (
+          <h2 className={`slide-heading max-w-5xl shrink-0 ${dense ? "mb-4 text-[clamp(1.8rem,4vw,2.8rem)]" : "mb-6"}`}>
+            {heading}
+          </h2>
+        )}
+        <div className={`w-full max-w-5xl pb-4 ${center ? "flex flex-col items-center" : ""}`}>
           {children}
         </div>
       </div>
@@ -181,18 +187,39 @@ export default function SlideDeck() {
     </Slide>,
 
     /* 11 Path forward */
-    <Slide key="path" kicker="Selection Path" heading="How teams advance">
+    <Slide key="path" kicker="Selection Path" heading="How teams advance" dense>
       <div className="space-y-4">
-        {[
-          { n: "100", l: "teams shortlisted for the hackathon" },
-          { n: "20–40", l: "teams advance to offline finals" },
-          { n: "10", l: "teams win and move toward national SIH" },
-        ].map((x) => (
-          <div key={x.l} className="stat-card flex items-center gap-6">
-            <p className="text-5xl font-black text-sih-orange shrink-0 w-28 text-center">{x.n}</p>
-            <p className="text-2xl font-bold text-sih-navy">{x.l}</p>
+        <div className="stat-card flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+          <p className="text-5xl sm:text-6xl font-black text-sih-orange shrink-0 sm:w-36 text-center leading-none">
+            100
+          </p>
+          <div>
+            <p className="text-2xl font-black text-sih-navy">Shortlisted for the hackathon</p>
+            <p className="text-xl font-semibold text-sih-charcoal mt-1">From the PPT round</p>
           </div>
-        ))}
+        </div>
+        <div className="stat-card accent flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+          <div className="sm:w-36 text-center shrink-0">
+            <p className="text-4xl sm:text-5xl font-black text-sih-orange leading-none">20</p>
+            <p className="text-xl font-black text-sih-navy my-0.5">to</p>
+            <p className="text-4xl sm:text-5xl font-black text-sih-orange leading-none">40</p>
+          </div>
+          <div>
+            <p className="text-2xl font-black text-sih-navy">Advance to offline finals</p>
+            <p className="text-xl font-semibold text-sih-charcoal mt-1">
+              Exact count depends on project quality after online judging
+            </p>
+          </div>
+        </div>
+        <div className="stat-card flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+          <p className="text-5xl sm:text-6xl font-black text-sih-orange shrink-0 sm:w-36 text-center leading-none">
+            10
+          </p>
+          <div>
+            <p className="text-2xl font-black text-sih-navy">Winners of internal screening</p>
+            <p className="text-xl font-semibold text-sih-charcoal mt-1">Path toward national SIH</p>
+          </div>
+        </div>
       </div>
     </Slide>,
 
@@ -203,7 +230,7 @@ export default function SlideDeck() {
           All <strong>100</strong> hackathon teams get participation certificates
         </Bullet>
         <Bullet>
-          <strong>20 to 40</strong> finalists get finalist certificates
+          Finalist teams (up to <strong>40</strong>) get finalist certificates
         </Bullet>
         <Bullet>
           Top <strong>10</strong> get winner certificates
@@ -214,7 +241,7 @@ export default function SlideDeck() {
     /* 13 Finals */
     <Slide key="finals" kicker="Offline Finals" heading="Pitch to experts">
       <p className="slide-body mb-5">
-        Top <strong>20 to 40</strong> teams (based on project quality) pitch again offline.
+        Up to <strong>40</strong> teams pitch again offline, based on project quality.
       </p>
       <ul className="space-y-4">
         <Bullet>Industry experts and faculty</Bullet>
@@ -231,14 +258,14 @@ export default function SlideDeck() {
     </Slide>,
 
     /* 15 Evaluation */
-    <Slide key="eval" kicker="Evaluation" heading="How you are scored">
-      <p className="slide-body mb-6">
+    <Slide key="eval" kicker="Evaluation" heading="How you are scored" dense>
+      <p className="text-xl sm:text-2xl font-semibold text-sih-charcoal mb-4">
         Judged on the problem option you chose. Working demo carries the most weight.
       </p>
-      <div className="space-y-4">
+      <div className="space-y-3">
         {evaluationCriteria.map((c) => (
           <div key={c.label}>
-            <div className="flex justify-between text-xl sm:text-2xl font-bold mb-1.5">
+            <div className="flex justify-between text-lg sm:text-xl font-bold mb-1">
               <span className="text-sih-navy">{c.label}</span>
               <span className="text-sih-orange">{c.marks}%</span>
             </div>
@@ -265,12 +292,12 @@ export default function SlideDeck() {
     )),
 
     /* Tools */
-    <Slide key="tools" kicker="Tools" heading="Start with these">
-      <div className="grid sm:grid-cols-2 gap-4">
+    <Slide key="tools" kicker="Tools" heading="Start with these" dense>
+      <div className="grid sm:grid-cols-2 gap-3">
         {tools.map((t) => (
-          <div key={t.category} className="stat-card">
-            <p className="text-2xl font-black text-sih-navy mb-1">{t.category}</p>
-            <p className="text-xl font-semibold text-sih-charcoal">{t.items}</p>
+          <div key={t.category} className="stat-card py-4">
+            <p className="text-xl sm:text-2xl font-black text-sih-navy mb-1">{t.category}</p>
+            <p className="text-lg sm:text-xl font-semibold text-sih-charcoal">{t.items}</p>
           </div>
         ))}
       </div>
@@ -298,67 +325,75 @@ export default function SlideDeck() {
       </ul>
     </Slide>,
 
-    /* Pro tips - 4 per slide */
-    ...[0, 4].map((start, idx) => (
-      <Slide key={`tips-${idx}`} kicker="Pro Tips" heading={idx === 0 ? "Survive the sprint" : "Win the demo"}>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {proTips.slice(start, start + 4).map((t) => (
-            <div key={t.title} className="stat-card">
-              <p className="text-2xl font-black text-sih-navy">{t.title}</p>
-              <p className="text-xl font-semibold text-sih-charcoal mt-2">{t.desc}</p>
-            </div>
-          ))}
-        </div>
+    /* Pro tips - 2 per slide to avoid cutoff */
+    ...proTips.map((t, idx) => (
+      <Slide key={`tip-${idx}`} kicker="Pro Tips" heading={t.title}>
+        <p className="slide-body">{t.desc}</p>
       </Slide>
     )),
 
-    /* Timeline */
-    <Slide key="timeline" kicker="Timeline" heading="Key moments">
+    /* Timeline split */
+    <Slide key="timeline-1" kicker="Timeline" heading="Before the sprint" dense>
       <div className="space-y-3">
         {[
           ["Today 5 PM", "PPT submission deadline"],
           ["Today 8:30 PM", "Top 100 shortlist released"],
-          ["29 Aug 9 PM", "Coding / repo start"],
-          ["30 Aug 9 AM–9 PM", "Offline sprint @ LHC-D"],
-          ["30 Aug 9 PM", "Repo freeze"],
-          ["30 Aug 9 PM–12 AM", "Online: 4 min demo + 2 min QnA"],
-          ["Finals", "Top 20–40 offline at Digital Library"],
+          ["29 Aug 9 PM", "Coding and repo start"],
         ].map(([when, what]) => (
-          <div key={when} className="stat-card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 py-4">
-            <span className="text-2xl font-black text-sih-orange">{when}</span>
-            <span className="text-2xl font-bold text-sih-navy">{what}</span>
+          <div key={when} className="stat-card py-4">
+            <p className="text-2xl font-black text-sih-orange">{when}</p>
+            <p className="text-2xl font-bold text-sih-navy mt-1">{what}</p>
           </div>
         ))}
       </div>
     </Slide>,
 
-    /* Q&A */
-    ...[0, 4, 8].map((start, idx) => (
-      <Slide key={`faq-${idx}`} kicker="Q & A" heading={idx === 0 ? "Common questions" : "More questions"}>
-        <div className="space-y-3">
-          {faqs.slice(start, start + (idx === 2 ? 2 : 4)).map((f) => (
-            <div key={f.q} className="stat-card py-4">
-              <p className="text-2xl font-black text-sih-navy">{f.q}</p>
-              <p className="text-xl font-semibold text-sih-charcoal mt-2">{f.a}</p>
-            </div>
-          ))}
-        </div>
-      </Slide>
-    )),
+    <Slide key="timeline-2" kicker="Timeline" heading="Hackathon day" dense>
+      <div className="space-y-3">
+        {[
+          ["30 Aug 9 AM to 9 PM", "Offline sprint at LHC-D"],
+          ["30 Aug 9 PM", "Repo freeze. No more pushes."],
+          ["30 Aug 9 PM to 12 AM", "Online: 4 min demo + 2 min QnA"],
+          ["Finals", "Up to 40 teams offline at Digital Library"],
+        ].map(([when, what]) => (
+          <div key={when} className="stat-card py-4">
+            <p className="text-2xl font-black text-sih-orange">{when}</p>
+            <p className="text-2xl font-bold text-sih-navy mt-1">{what}</p>
+          </div>
+        ))}
+      </div>
+    </Slide>,
+
+    /* Q&A - 2 per slide */
+    ...Array.from({ length: Math.ceil(faqs.length / 2) }, (_, idx) => {
+      const start = idx * 2;
+      return (
+        <Slide key={`faq-${idx}`} kicker="Q & A" heading={idx === 0 ? "Common questions" : "More questions"} dense>
+          <div className="space-y-3">
+            {faqs.slice(start, start + 2).map((f) => (
+              <div key={f.q} className="stat-card py-4">
+                <p className="text-xl sm:text-2xl font-black text-sih-navy">{f.q}</p>
+                <p className="text-lg sm:text-xl font-semibold text-sih-charcoal mt-2">{f.a}</p>
+              </div>
+            ))}
+          </div>
+        </Slide>
+      );
+    }),
 
     /* Contact */
-    <Slide key="contact" center>
-      <Image src="/logos/sih.png" alt="SIH" width={140} height={140} className="h-24 w-auto mb-5 object-contain" />
-      <h2 className="text-4xl sm:text-5xl font-black text-sih-navy mb-2">
+    <Slide key="contact" center dense>
+      <Image src="/logos/sih.png" alt="SIH" width={120} height={120} className="h-20 w-auto mb-4 object-contain" />
+      <h2 className="text-3xl sm:text-4xl font-black text-sih-navy mb-2">
         Build. Innovate. Represent NITK.
       </h2>
-      <p className="text-2xl font-bold text-sih-orange mb-8">See you at the internal screening</p>
-      <div className="grid sm:grid-cols-3 gap-4 w-full max-w-4xl">
+      <p className="text-xl sm:text-2xl font-bold text-sih-orange mb-6">See you at the internal screening</p>
+      <div className="grid sm:grid-cols-3 gap-3 w-full max-w-4xl">
         {contacts.map((c) => (
-          <div key={c.name} className="stat-card text-center">
-            <p className="text-xl font-black text-sih-navy">{c.name}</p>
-            <p className="text-lg font-semibold text-sih-charcoal mt-1">{c.role}</p>
-            <a href={`tel:${c.phone}`} className="text-xl font-bold text-sih-orange mt-2 inline-block">
+          <div key={c.name} className="stat-card text-center py-4">
+            <p className="text-lg sm:text-xl font-black text-sih-navy">{c.name}</p>
+            <p className="text-base font-semibold text-sih-charcoal mt-1">{c.role}</p>
+            <a href={`tel:${c.phone}`} className="text-lg font-bold text-sih-orange mt-2 inline-block">
               {c.phone}
             </a>
           </div>
