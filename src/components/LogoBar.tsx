@@ -1,47 +1,27 @@
 import Image from "next/image";
-import { sideLogos } from "@/data/content";
 
 export default function LogoBar() {
-  const left = sideLogos.slice(0, 2);
-  const right = sideLogos.slice(2);
-
   return (
-    <div className="flex items-center justify-center gap-3 sm:gap-6 px-4 py-3 bg-white/80 backdrop-blur-sm border-b border-slate-100">
-      <div className="flex items-center gap-3 sm:gap-5">
-        {left.map((logo) => (
-          <Image
-            key={logo.src}
-            src={logo.src}
-            alt={logo.alt}
-            width={120}
-            height={48}
-            className="h-8 sm:h-10 w-auto object-contain opacity-90"
-          />
-        ))}
+    <div className="flex items-center justify-between gap-2 sm:gap-4 px-4 sm:px-8 py-3 bg-white border-b border-slate-100">
+      <div className="flex items-center gap-3 sm:gap-5 flex-1 justify-end">
+        <Image src="/logos/nitk.png" alt="NITK" width={80} height={80} className="h-10 sm:h-12 w-auto object-contain" />
+        <Image src="/logos/iic.png" alt="IIC" width={140} height={60} className="h-8 sm:h-10 w-auto object-contain" />
       </div>
 
-      <div className="mx-2 sm:mx-4 px-3 sm:px-5 py-1.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm">
+      <div className="flex items-center justify-center px-3 sm:px-6 shrink-0">
         <Image
           src="/logos/webclub.png"
           alt="Web Enthusiasts Club NITK"
-          width={200}
-          height={64}
-          className="h-10 sm:h-14 w-auto object-contain"
+          width={220}
+          height={90}
+          className="h-12 sm:h-14 w-auto object-contain"
           priority
         />
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-5">
-        {right.map((logo) => (
-          <Image
-            key={logo.src}
-            src={logo.src}
-            alt={logo.alt}
-            width={120}
-            height={48}
-            className="h-8 sm:h-10 w-auto object-contain opacity-90"
-          />
-        ))}
+      <div className="flex items-center gap-3 sm:gap-5 flex-1 justify-start">
+        <Image src="/logos/ieee.png" alt="IEEE NITK" width={160} height={50} className="h-8 sm:h-10 w-auto object-contain" />
+        <Image src="/logos/iet.png" alt="IET NITK" width={80} height={80} className="h-10 sm:h-12 w-auto object-contain" />
       </div>
     </div>
   );

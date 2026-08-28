@@ -1,71 +1,87 @@
-export const sideLogos = [
-  { src: "/logos/nitk.png", alt: "NITK Surathkal" },
-  { src: "/logos/iic.png", alt: "IIC" },
-  { src: "/logos/ieee.png", alt: "IEEE NITK" },
-  { src: "/logos/iet.png", alt: "IET NITK" },
-];
-
-export const dates = [
-  { when: "28 Aug, 4 PM", what: "PPT form opens" },
-  { when: "29 Aug, 4 PM", what: "PPT form closes", urgent: true },
-  { when: "30 Aug, 9 AM", what: "Hackathon starts @ CCC" },
-  { when: "30 Aug, 9 PM", what: "Hackathon ends" },
-];
-
 export const evaluationCriteria = [
-  { label: "MVP / Working Build", marks: 30, color: "bg-violet-500" },
-  { label: "Problem Understanding", marks: 15, color: "bg-blue-500" },
-  { label: "Innovation", marks: 15, color: "bg-cyan-500" },
-  { label: "Technical Feasibility", marks: 15, color: "bg-emerald-500" },
-  { label: "Impact & Scalability", marks: 15, color: "bg-amber-500" },
-  { label: "Presentation", marks: 10, color: "bg-rose-500" },
+  { label: "Working MVP / Demo", marks: 30 },
+  { label: "Problem Understanding", marks: 15 },
+  { label: "Innovation", marks: 15 },
+  { label: "Technical Feasibility", marks: 15 },
+  { label: "Impact & Scalability", marks: 15 },
+  { label: "Presentation", marks: 10 },
 ];
 
-export const buildTimeline = [
-  { hours: "0-3h", task: "Understand the problem. Pick your approach. Sketch architecture." },
-  { hours: "3-8h", task: "Build core features. Get something working early." },
-  { hours: "8-14h", task: "Integrate APIs, database, and UI. Test continuously." },
-  { hours: "14-20h", task: "Polish UX, fix bugs, prepare demo flow." },
-  { hours: "20-24h", task: "Finalize README, record demo, prep presentation." },
+export const buildBlocks = [
+  { hours: "0 to 3 hrs", task: "Understand the problem. Lock your approach. Sketch architecture." },
+  { hours: "3 to 8 hrs", task: "Build the core. Get one happy path working end to end." },
+  { hours: "8 to 14 hrs", task: "Add features, integrate APIs and data. Test as you go." },
+  { hours: "14 to 20 hrs", task: "Polish UX, fix bugs, prepare a clean 3 min demo." },
+  { hours: "20 to 24 hrs", task: "README, pitch deck, freeze the repo. Nothing after 9 PM." },
 ];
 
 export const tools = [
-  { category: "Frontend", items: ["React / Next.js", "Tailwind CSS", "Flutter"] },
-  { category: "Backend", items: ["Node.js / Express", "Python / FastAPI", "Firebase"] },
-  { category: "Database", items: ["PostgreSQL", "MongoDB", "Supabase"] },
-  { category: "AI / ML", items: ["OpenAI API", "Gemini API", "Hugging Face"] },
-  { category: "Deploy", items: ["Vercel", "Render", "Railway"] },
+  { category: "Frontend", items: "React, Next.js, Tailwind, Flutter" },
+  { category: "Backend", items: "Node, Express, FastAPI, Firebase" },
+  { category: "Data", items: "PostgreSQL, MongoDB, Supabase" },
+  { category: "AI / ML", items: "OpenAI, Gemini, Hugging Face" },
+  { category: "Hardware", items: "Arduino, ESP32, Raspberry Pi, sensors" },
+  { category: "Deploy", items: "Vercel, Render, Railway" },
 ];
 
-export const submissionChecklist = [
-  "GitHub repo with clean README",
-  "Working demo (live or recorded)",
-  "PPT: problem, solution, tech stack, impact",
-  "Team roles and contribution breakdown",
-  "Code freeze respected after deadline",
+export const submitItems = [
+  "GitHub repo created after 29 Aug, 9 PM",
+  "No pushes after 30 Aug, 9 PM",
+  "Working demo (live or recorded, 3 mins)",
+  "PPT: problem, solution, stack, impact",
+  "Clear README with setup steps",
 ];
 
 export const resources = [
-  { title: "Past SIH Problem Statements", desc: "Study themes from previous years on sih.gov.in" },
-  { title: "Reference Repos", desc: "Browse winning SIH projects on GitHub for architecture ideas" },
-  { title: "MVP First Mindset", desc: "Ship one core feature that works end to end, then expand" },
-  { title: "Use What You Know", desc: "Pick a stack your team has built with before" },
-  { title: "Mentorship at CCC", desc: "Club mentors available throughout the 24h sprint" },
-  { title: "Documentation Matters", desc: "Judges read your README. Make setup steps crystal clear" },
+  { title: "Past SIH themes", desc: "Browse previous problem statements on sih.gov.in for inspiration." },
+  { title: "Winning repos", desc: "Study architecture from past SIH winners on GitHub." },
+  { title: "MVP first", desc: "One working flow beats ten unfinished features." },
+  { title: "Hardware welcome", desc: "IoT and hardware builds are allowed. Demo them live." },
+  { title: "Mentors on site", desc: "Final year mentors help during the 12 hr LHC-D sprint." },
+  { title: "Document well", desc: "Judges open your README. Make setup obvious." },
 ];
 
 export const faqs = [
-  { q: "Who can participate?", a: "All 6 members must be NITK Surathkal students." },
-  { q: "Team size?", a: "Exactly 6 members with at least 1 female member." },
-  { q: "How to register?", a: "One member fills the form for the entire team." },
-  { q: "PPT deadline?", a: "29 August, 4 PM. No extensions." },
-  { q: "Problem statements?", a: "You get 3 (Campus, Ministry, General). Pick one." },
-  { q: "How many teams selected?", a: "Top 100 for the hackathon. 20-40 advance to National SIH." },
-  { q: "What do winners get?", a: "Top 10 win consumable prizes worth up to ₹40,000 total." },
-  { q: "Certificates?", a: "All 100 participating teams receive certificates." },
-  { q: "Where is the hackathon?", a: "30 Aug at CCC, NITK. Meals and mentorship provided." },
-  { q: "Code freeze?", a: "No code changes after freeze. Only README updates allowed." },
-  { q: "Contacts?", a: "Suyash: 7892799071 | Samved: 8050131880 | Vishruth: 8660753633" },
+  {
+    q: "Is this the national SIH?",
+    a: "No. This is NITK's internal screening round only.",
+  },
+  {
+    q: "Do we use the same problem at national SIH?",
+    a: "No. Internal problem statements are for screening. You may pick a different one for national SIH.",
+  },
+  {
+    q: "When can we start coding?",
+    a: "From 29 Aug 9 PM. Repo must be created after that time.",
+  },
+  {
+    q: "Where is the offline sprint?",
+    a: "LHC-D, 30 Aug, 9 AM to 9 PM. Attendance is mandatory.",
+  },
+  {
+    q: "How long is the online pitch?",
+    a: "4 min pitch + 2 min QnA per team on 30 Aug, 9 PM to 12 AM.",
+  },
+  {
+    q: "Hardware projects?",
+    a: "Yes. Hardware and IoT builds are welcome.",
+  },
+  {
+    q: "Certificates?",
+    a: "100 teams: participation. 20 to 40: finalist. Top 10: winner.",
+  },
+  {
+    q: "Code freeze?",
+    a: "Nothing pushed after 30 Aug, 9 PM. Violations risk disqualification.",
+  },
+  {
+    q: "Who mentors?",
+    a: "Final year students provide offline guidance during the 12 hr sprint.",
+  },
+  {
+    q: "Contacts?",
+    a: "Suyash 7892799071 · Samved 8050131880 · Vishruth 8660753633",
+  },
 ];
 
 export const contacts = [
