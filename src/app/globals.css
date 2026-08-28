@@ -98,3 +98,52 @@ body {
 .urgent-cta {
   animation: pulse-glow 2s infinite;
 }
+
+/* PPT Slide Deck */
+.ppt-deck {
+  touch-action: pan-y pinch-zoom;
+}
+
+.slide-shell {
+  height: 100%;
+}
+
+.slide-title {
+  position: relative;
+  display: inline-block;
+}
+
+.slide-title::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(to right, var(--sih-orange), var(--sih-green));
+  border-radius: 2px;
+}
+
+.slide-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sih-orange) transparent;
+}
+
+.slide-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.slide-scroll::-webkit-scrollbar-thumb {
+  background: var(--sih-orange);
+  border-radius: 2px;
+}
+
+.swipe-btn {
+  letter-spacing: 0.05em;
+}
+
+html,
+body {
+  overflow: hidden;
+  height: 100%;
+}
