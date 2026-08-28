@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SIH 2026 — NITK Internal Screening Round
 
-## Getting Started
+Official landing page for the Smart India Hackathon 2026 Internal Screening Round at NITK Surathkal.
 
-First, run the development server:
+Organized by **Web Enthusiasts' Club NITK**, **IET NITK**, and **IEEE NITK**.
+
+## Features
+
+- Event guidelines, timeline, and hackathon rules
+- PPT evaluation criteria (aligned with official SIH)
+- Q&A section
+- PPT submission countdown and CTA
+- Mobile-responsive design with SIH poster branding
+
+## Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy to Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/sih-nitk-2026)
 
-## Learn More
+Or connect this repo in the [Vercel Dashboard](https://vercel.com/dashboard).
 
-To learn more about Next.js, take a look at the following resources:
+## Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Update the PPT submission form link in `src/components/Submit.tsx`:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```tsx
+href="https://forms.gle/YOUR_FORM_ID"
+```
 
-## Deploy on Vercel
+## Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Next.js 16 (App Router)
+- TypeScript
+- Tailwind CSS 4
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contact
+
+- Suyash D Nahar (WebClub) — 7892799071
+- Samved Sajankila (IET) — 8050131880
+- Vishruth V Srivatsa (IEEE) — 8660753633
+
+Build. Innovate. Represent NITK. 🇮🇳
