@@ -9,7 +9,7 @@ Organized by **Web Enthusiasts' Club NITK**, **IET NITK**, and **IEEE NITK**.
 - Event guidelines, timeline, and hackathon rules
 - PPT evaluation criteria (aligned with official SIH)
 - Q&A section
-- PPT submission countdown and CTA
+- PPT submission countdown
 - Mobile-responsive design with SIH poster branding
 
 ## Quick Start
@@ -26,14 +26,6 @@ Open [http://localhost:3000](http://localhost:3000).
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/suyash101101/sih-nitk-2026-internal)
 
 Or connect this repo in the [Vercel Dashboard](https://vercel.com/dashboard).
-
-## Configuration
-
-Update the PPT submission form link in `src/components/Submit.tsx`:
-
-```tsx
-href="https://forms.gle/YOUR_FORM_ID"
-```
 
 ## Tech Stack
 

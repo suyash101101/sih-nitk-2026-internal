@@ -161,18 +161,12 @@ export default function Hero() {
           <Countdown />
         </div>
 
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="#submit"
-            className="urgent-cta inline-flex items-center justify-center gap-2 bg-sih-orange hover:bg-sih-saffron text-white font-bold px-8 py-4 rounded-full text-lg transition-colors shadow-lg"
-          >
-            Submit PPT Now →
-          </a>
+        <div className="mt-8 flex justify-center">
           <a
             href="#guidelines"
-            className="inline-flex items-center justify-center gap-2 border-2 border-sih-navy text-sih-navy hover:bg-sih-navy hover:text-white font-bold px-8 py-4 rounded-full text-lg transition-colors"
+            className="inline-flex items-center justify-center gap-2 bg-sih-orange hover:bg-sih-saffron text-white font-bold px-8 py-4 rounded-full text-lg transition-colors shadow-lg"
           >
-            View Guidelines
+            View Guidelines →
           </a>
         </div>
       </div>

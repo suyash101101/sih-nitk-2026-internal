@@ -8,7 +8,6 @@ const links = [
   { href: "#evaluation", label: "Evaluation" },
   { href: "#rules", label: "Rules" },
   { href: "#qna", label: "Q&A" },
-  { href: "#submit", label: "Submit PPT" },
 ];
 
 export default function Navbar() {

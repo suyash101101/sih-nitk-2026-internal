@@ -7,7 +7,6 @@ import Timeline from "@/components/Timeline";
 import Evaluation from "@/components/Evaluation";
 import Rules from "@/components/Rules";
 import QnA from "@/components/QnA";
-import Submit from "@/components/Submit";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -23,7 +22,6 @@ export default function Home() {
         <Evaluation />
         <Rules />
         <QnA />
-        <Submit />
       </main>
       <TricolorBar />
       <Footer />
